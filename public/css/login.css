@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --bg-color: #e0e5ec;
+    --text-color: #555;
+    --primary-color: #4b7bec;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-family);
+    /* CHANGED: Made transparent for the video */
+    background-color: transparent; 
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- NEW: Background Video Styles --- */
+#bg-video {
+    position: fixed;
+    right: 35;
+    bottom: 10; /* <-- ADJUSTED: Moved up slightly to better center */
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+    object-fit: cover;
+    filter: brightness(0.7);
+    object-position: center top; /* <-- CHANGE TO THIS */
+}
+
+.container { width: 100%; height: 100vh; position: relative; }
+.view { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity .4s,visibility .4s; }
+.view.active-view { opacity: 1; visibility: visible; }
+
+/* --- UPDATED: Card with Transparency --- */
+.neu-card {
+    background: rgba(224, 229, 236, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 15px rgba(0,0,0,0.2), -8px -8px 15px rgba(255,255,255,0.1); 
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transform: translateY(10px); /* <-- ADD THIS LINE */
+}
+
+.neu-icon { width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: inset 5px 5px 10px var(--shadow-dark),inset -5px -5px 10px var(--shadow-light); }
+.icon-inner { width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 5px 5px 10px var(--shadow-dark),-5px -5px 10px var(--shadow-light); }
+.neu-icon svg { width: 30px; height: 30px; stroke: var(--primary-color); stroke-width: 1.5; fill: none; }
+.neu-card h2 { font-weight: 600; margin-bottom: 20px; color: #333; }
+.neu-card p { font-size: .9rem; margin-bottom: 20px; }
+.form-group { margin-bottom: 20px; }
+.input-group { position: relative; }
+.neu-input input, .neu-input select { width: 100%; padding: 15px; border: none; border-radius: 10px; background: var(--bg-color); box-shadow: inset 4px 4px 8px var(--shadow-dark),inset -4px -4px 8px var(--shadow-light); font-size: 1rem; color: var(--text-color); font-family: var(--font-family); }
+.neu-input input:focus, .neu-input select:focus { outline: none; }
+.input-group label { position: absolute; top: 15px; left: 15px; color: var(--text-color); pointer-events: none; transition: all .2s ease; }
+/* UPDATED: Floating label background to match transparent card */
+.input-group input:not(:placeholder-shown)+label, .input-group input:focus+label { top: -10px; left: 10px; font-size: .8rem; background: rgba(224, 229, 236, 0.9); padding: 0 5px; color: var(--primary-color); }
+.password-group { position: relative; }
+.password-toggle { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; cursor: pointer; }
+.neu-toggle { width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 3px 3px 6px var(--shadow-dark),-3px -3px 6px var(--shadow-light); }
+.neu-toggle:active { box-shadow: inset 2px 2px 4px var(--shadow-dark),inset -2px -2px 4px var(--shadow-light); }
+.password-toggle svg { width: 20px; height: 20px; stroke: var(--text-color); stroke-width: 1.5; fill: none; }
+.eye-closed { display: none; }
+.neu-button { width: 100%; padding: 15px; border: none; border-radius: 15px; background: var(--bg-color); box-shadow: 5px 5px 10px var(--shadow-dark),-5px -5px 10px var(--shadow-light); color: var(--primary-color); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: box-shadow .2s; }
+.neu-button:active { box-shadow: inset 5px 5px 10px var(--shadow-dark),inset -5px -5px 10px var(--shadow-light); }
+.home-actions { display: flex; flex-direction: column; gap: 20px; }
+.divider { display: flex; align-items: center; text-align: center; margin: 25px 0; color: var(--text-color); }
+.divider span { padding: 0 15px; font-size: .8rem; }
+.divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--shadow-dark); }
+.bottom-link { font-size: .9rem; margin-top: 20px; }
+.bottom-link a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+.neu-button-wrapper { border-radius: 15px; padding: 2px; box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light); }
+.neu-button-wrapper > div { display: flex; justify-content: center; }
+
+/* Phone Input Styles */
+.phone-group { position: relative; }
+.country-code { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-weight: 500; color: var(--text-color); pointer-events: none; opacity: 0; transition: opacity 0.2s ease; }
+.phone-group input { padding-left: 55px; }
+.phone-group label { left: 15px; }
+.phone-group input:focus + label, .phone-group input:not(:placeholder-shown) + label { top: -10px; left: 10px; font-size: 0.8rem; background: rgba(224, 229, 236, 0.9); padding: 0 5px; color: var(--primary-color); }
+.phone-group input:focus ~ .country-code, .phone-group input:not(:placeholder-shown) ~ .country-code { opacity: 1; }
+.warning-message { display: none; text-align: right; font-size: 0.8rem; color: #e53935; margin-top: 5px; }
+.warning-message.visible { display: block; }
+
+/* Custom Google Button */
+.custom-google-btn { display: flex; justify-content: center; align-items: center; gap: 12px; color: var(--text-color); background: var(--bg-color); }
+.google-icon { width: 20px; height: 20px; fill: currentColor; }

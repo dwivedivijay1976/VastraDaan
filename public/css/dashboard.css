@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+:root{--primary-color:#2ecc71;--secondary-color:#27ae60;--text-dark:#34495e;--text-light:#7f8c8d;--bg-color:#fff;--border-color:#ecf0f1;--font-family:'Poppins',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-family);background-color:var(--bg-color);color:var(--text-dark)}
+.main-header{display:flex;justify-content:space-between;align-items:center;padding:15px 5%;border-bottom:1px solid var(--border-color);background-color:var(--bg-color);position:fixed;top:0;left:0;width:100%;z-index:100}
+.logo{display:flex;align-items:center;font-weight:700;font-size:1.5rem}
+.logo span{margin-left:10px}
+.main-nav{display:flex}
+.main-nav a{text-decoration:none;color:var(--text-light);font-weight:500;margin:0 15px;transition:color .3s; padding-bottom: 5px; border-bottom: 2px solid transparent;}
+.main-nav a:hover, .main-nav a.active{color:var(--primary-color); border-bottom-color: var(--primary-color);}
+.header-right{display:flex;align-items:center;gap:15px}
+.join-now-btn{padding:10px 25px;border:none;border-radius:5px;background-color:var(--primary-color);color:#fff;font-weight:600;cursor:pointer;transition:background-color .3s}
+.join-now-btn:hover{background-color:var(--secondary-color)}
+.hamburger-menu{display:none;border:none;background:none;cursor:pointer;padding:0}
+.hamburger-menu span{display:block;width:25px;height:3px;background-color:var(--text-dark);margin:5px 0;transition:all .3s}
+.content-area{padding-top:100px;max-width:1200px;margin:0 auto}
+.hero-content{display:flex;align-items:center;justify-content:space-between;padding:40px 5%}
+.hero-text{flex:1;padding-right:40px}
+.sub-heading{font-weight:600;color:var(--primary-color);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.hero-text h1{font-size:3rem;font-weight:700;margin-bottom:20px;line-height:1.2}
+.hero-text p{color:var(--text-light);margin-bottom:30px;font-size:1.1rem}
+.action-btn{display:inline-block;text-decoration:none;padding:15px 30px;border:none;border-radius:5px;background-color:var(--primary-color);color:#fff;font-weight:600;cursor:pointer;transition:background-color .3s;font-size:1rem}
+.action-btn:hover{background-color:var(--secondary-color)}
+.hero-image{flex:1;text-align:center}
+.hero-image img{max-width:100%;height:auto}
+
+/* Responsive Styles for Mobile */
+@media (max-width:768px){
+    .main-nav{position:fixed;top:68px;left:0;width:100%;background-color:var(--bg-color);flex-direction:column;align-items:center;padding:20px 0;transform:translateY(-120%);transition:transform .3s ease-in-out;border-bottom:1px solid var(--border-color)}
+    .main-nav.active{transform:translateY(0)}
+    .main-nav a{margin:10px 0}
+    .hamburger-menu{display:block}
+    .join-now-btn{display:none} /* Hides the main logout button to avoid clutter */
+    .hero-content{flex-direction:column;text-align:center}
+    .hero-text{padding-right:0}
+    .hero-image{margin-top:40px}
+}
+/* --- ADD THIS to the bottom of your dashboard.css --- */
+
+/* Animated Background Canvas */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind everything */
+    background-color: #ffffff; /* Fallback background color */
+}
+
+/* Make the header and content area transparent to see the background */
+.main-header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.content-area {
+    background-color: transparent;
+}
+
+/* --- NEW: Earnings Modal Styles (Button CSS Removed) --- */
+
+/* REMOVED: The #show-earnings-btn styles are no longer needed. */
+
+/* The Modal (background) - hidden by default */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 25px;
+  border: 1px solid var(--border-color);
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  font-family: var(--font-family);
+}
+
+/* The Close Button (x) */
+.close-btn {
+  color: var(--text-light);
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: var(--text-dark);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+}

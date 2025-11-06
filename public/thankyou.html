@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You! - Vastradaan</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/thankyou.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+             <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#2ecc71" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            <span>Vastradaan</span>
+        </div>
+        <nav class="main-nav">
+             <a href="dashboard.html" class="nav-link">Home</a>
+             <a href="track.html" class="nav-link">Track</a>
+             <a href="refer.html" class="nav-link">Refer & Earn</a>
+             <a href="helpline.html" class="nav-link">Helpline</a>
+        </nav>
+        <div class="header-right">
+            <button id="logout-btn" class="join-now-btn">Logout</button>
+            <button class="hamburger-menu" id="hamburger-menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    
+    <main class="content-area">
+        <div class="receipt-card">
+            <div class="receipt-icon">✓</div>
+            <h1>Thank You!</h1>
+            <p class="subtitle">Your donation has been scheduled successfully. Here is your receipt:</p>
+            
+            <div class="receipt-details">
+                <h3>Donation Summary</h3>
+                <p><strong>Donation ID:</strong> <span id="receipt-id"></span></p>
+                <p><strong>Items:</strong> <span id="receipt-items"></span></p>
+                <p><strong>Condition:</strong> <span id="receipt-condition"></span></p>
+                <p><strong>Pickup Date:</strong> <span id="receipt-date"></span></p>
+                <p><strong>Time Slot:</strong> <span id="receipt-slot"></span></p>
+            </div>
+
+            <div class="qr-code-container">
+                <div id="qrcode"></div>
+                <p>Scan for details</p>
+            </div>
+            
+            <a href="dashboard.html" class="action-btn">Back to Dashboard</a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="js/thankyou.js"></script>
+</body>
+</html>

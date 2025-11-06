@@ -1,0 +1,148 @@
+:root {
+    --accent-color: #2D63F4; /* Vibrant Blue */
+    --accent-color-light: #E9EFFF;
+    --card-bg: #FFFFFF;
+    --page-bg: #F7F8FC;
+    --shadow-color: rgba(45, 99, 244, 0.1);
+}
+
+/* Override body background for this page */
+body {
+    background-color: var(--page-bg);
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+}
+
+.page-title p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+.tracking-card {
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.shipment-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.status-pill {
+    background-color: var(--accent-color-light);
+    color: var(--accent-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.card-illustration {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.card-illustration img {
+    max-width: 200px;
+    height: auto;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+/* The vertical connecting line */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; /* Center on the 16px icon */
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background-color: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: -22px; /* Pull left over the padding */
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    border: 3px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+.timeline-item.active .timeline-icon {
+    border-color: var(--accent-color);
+}
+
+.timeline-content {
+    text-align: left;
+}
+
+.timeline-content h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.timeline-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.package-details {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background-color: var(--page-bg);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: inline-block;
+}
+/* --- ADD THIS to the bottom of your track.css --- */
+
+/* Style for the new animated GIF */
+.tracking-gif {
+    max-width: 150px; /* Control the size of the GIF */
+    height: auto;
+}

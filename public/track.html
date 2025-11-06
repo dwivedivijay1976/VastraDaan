@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Donation - Vastradaan</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/track.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+             <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#2ecc71" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            <span>Vastradaan</span>
+        </div>
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link">Home</a>
+            <a href="track.html" class="nav-link active">Track</a>
+            <a href="refer.html" class="nav-link">Refer & Earn</a>
+            <a href="helpline.html" class="nav-link">Helpline</a>
+        </nav>
+        <div class="header-right">
+            <button id="logout-btn" class="join-now-btn">Logout</button>
+            <button class="hamburger-menu" id="hamburger-menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="tracking-card">
+            <div class="card-header">
+                <div>
+                    <span class="shipment-label">Donation ID</span>
+                    <h2 id="donation-id">Loading...</h2>
+                </div>
+                <div id="status-pill" class="status-pill">Loading...</div>
+            </div>
+            <div class="card-illustration">
+                <img src="images/tracking-animation.gif" alt="Tracking animation" class="tracking-gif">
+            </div>
+            <div class="timeline">
+                <div class="timeline-item" id="pickup-point">
+                    <div class="timeline-icon pickup"></div>
+                    <div class="timeline-content">
+                        <h3>Pickup Location</h3>
+                        <p id="pickup-address">Loading your address...</p>
+                        <div class="package-details">
+                            Package: <span id="package-items"></span> (<span id="package-condition"></span> Condition)
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item" id="delivery-point">
+                    <div class="timeline-icon delivery"></div>
+                    <div class="timeline-content">
+                        <h3>Donation Center</h3>
+                        <p>Items will be sorted and delivered to those in need.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/track.js"></script>
+</body>
+</html>

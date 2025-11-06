@@ -1,0 +1,121 @@
+.page-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-title h1 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+}
+
+.page-title p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 10px auto 0 auto;
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.contact-info {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.contact-info h3, .faq-section h3, .contact-form-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item strong {
+    display: block;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.info-item span {
+    color: var(--text-light);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+}
+
+.faq-item summary {
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none; /* Removes default triangle */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none; /* Hides default triangle in Chrome/Safari */
+}
+
+/* Custom dropdown arrow */
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    transition: transform 0.2s;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    margin-top: 15px;
+    padding-left: 5px;
+    line-height: 1.7;
+    color: var(--text-light);
+}
+
+.contact-form-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.contact-form-section form input, .contact-form-section form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
+.contact-form-section form input:focus, .contact-form-section form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.contact-form-section .action-btn {
+    width: auto;
+    padding: 12px 40px;
+}
+
+@media (max-width: 768px) {
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+}

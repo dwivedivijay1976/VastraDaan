@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Cloth Donation</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <header class="main-header">
+        <div class="logo">
+            <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#2ecc71" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            <span>Vastradaan</span>
+        </div>
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link active">Home</a>
+            <a href="track.html" class="nav-link">Track</a>
+            <a href="refer.html" class="nav-link">Refer & Earn</a>
+            <a href="helpline.html" class="nav-link">Helpline</a>
+            <a href="#" id="show-earnings-link" class="nav-link">My Earnings</a>
+        </nav>
+        <div class="header-right">
+            <button id="logout-btn" class="btn btn-danger">Logout</button>
+            <span id="user-name"></span>
+
+            <button class="hamburger-menu" id="hamburger-menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div id="home-view" class="view active-view">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="sub-heading">YOUR DASHBOARD</p>
+                    <h1 id="welcome-message"></h1>
+                    <p>Thank you for being a part of our community. Your contributions make a real difference. Click the button below to get started.</p>
+                    <a href="donate.html" class="action-btn">Donate Now</a>
+                </div>
+                <div class="hero-image">
+                    <img src="images/dashboard-image.png" alt="Community illustration">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="earnings-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Your Total Earnings</h2>
+        <p>This is the total amount you've earned through referrals.</p>
+        <h3 id="total-earnings-display">$0.00</h3>
+      </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/background.js"></script>
+</body>
+</html>

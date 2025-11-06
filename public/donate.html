@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Donation - Vastradaan</title>
+    <!-- Your dashboard.css is for layout, donate.css is for specific form styles -->
+    <link rel="stylesheet" href="css/dashboard.css"> 
+    <link rel="stylesheet" href="css/donate.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+             <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#2ecc71" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            <span>Vastradaan</span>
+        </div>
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link">Home</a>
+            <a href="track.html" class="nav-link">Track</a>
+            <a href="refer.html" class="nav-link">Refer & Earn</a>
+            <a href="helpline.html" class="nav-link">Helpline</a>
+        </nav>
+        <div class="header-right">
+            <button id="logout-btn" class="join-now-btn">Logout</button>
+            <button class="hamburger-menu" id="hamburger-menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <!-- MODIFIED: Main content area class updated for better styling consistency -->
+    <main class="form-container">
+        <div class="form-card">
+            <h1>Schedule a Donation</h1>
+            <p>Your generosity helps create a better tomorrow. Please fill out the details below.</p>
+            
+            <form id="donation-form">
+                <!-- MODIFIED: Wrapped in form-group for better styling -->
+                <div class="form-group">
+                    <label for="donation-items">Describe Your Items</label>
+                    <textarea id="donation-items" rows="3" placeholder="e.g., 5 T-shirts, 2 pairs of jeans" required></textarea>
+                </div>
+
+                <!-- NEW: Added Quantity Input for earnings calculation -->
+                <div class="form-group">
+                    <label for="donation-quantity">Total Number of Clothes</label>
+                    <input type="number" id="donation-quantity" placeholder="e.g., 7" min="1" required>
+                </div>
+
+                <!-- MODIFIED: Wrapped in form-group for better styling -->
+                <div class="form-group">
+                    <label for="donation-condition">Condition of Items</label>
+                    <select id="donation-condition" required>
+                        <option value="" disabled selected>Select a condition</option>
+                        <option value="new">New (with tags, unused)</option>
+                        <option value="good">Good (gently used)</option>
+                        <option value="fair">Fair (visible wear)</option>
+                    </select>
+                    <div class="feedback" id="condition-feedback"></div>
+                </div>
+                
+                <!-- MODIFIED: Using a row for better layout of date/time -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pickup-date">Preferred Pickup Date</label>
+                        <input type="date" id="pickup-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pickup-slot">Preferred Time Slot</label>
+                        <select id="pickup-slot" required>
+                            <option value="" disabled selected>Select a time</option>
+                            <option value="morning">Morning (9am - 12pm)</option>
+                            <option value="afternoon">Afternoon (1pm - 4pm)</option>
+                            <option value="evening">Evening (5pm - 8pm)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="action-btn">Schedule Pickup</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/donate.js"></script>
+</body>
+</html>
+

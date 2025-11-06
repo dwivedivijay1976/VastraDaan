@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpline - Vastradaan</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/helpline.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+             <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#2ecc71" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            <span>Vastradaan</span>
+        </div>
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link">Home</a>
+            <a href="track.html" class="nav-link">Track</a>
+            <a href="refer.html" class="nav-link">Refer & Earn</a>
+            <a href="helpline.html" class="nav-link active">Helpline</a>
+        </nav>
+        <div class="header-right">
+            <button id="logout-btn" class="join-now-btn">Logout</button>
+            <button class="hamburger-menu" id="hamburger-menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <div class="helpline-container">
+            <div class="page-title">
+                <h1>Support Center</h1>
+                <p>We're here to help. Find answers to common questions or get in touch with our team.</p>
+            </div>
+
+            <div class="support-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <strong>Phone:</strong>
+                        <span>+91 8496825046</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Email:</strong>
+                        <span>support@vastradaan.org</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Operating Hours:</strong>
+                        <span>Mon - Fri, 9:00 AM - 6:00 PM IST</span>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h3>Frequently Asked Questions</h3>
+                    <details class="faq-item">
+                        <summary>How do I schedule a donation pickup?</summary>
+                        <p>After logging in, go to your dashboard and click "Donate Now". Fill in the details about the items you wish to donate, and our team will schedule a pickup at your registered address.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What items can I donate?</summary>
+                        <p>We accept all kinds of new or gently used clothing in fair, good, or new condition. This includes shirts, pants, dresses, and traditional wear. We do not accept undergarments or socks.</p>
+                    </details>
+                     <details class="faq-item">
+                        <summary>How can I track my donation?</summary>
+                        <p>You can track the status of your most recent donation by clicking the "Track" link in the navigation menu after you have logged in.</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="contact-form-section">
+                <h3>Send Us a Message</h3>
+                <form id="contact-form">
+                    <input type="text" id="contact-name" placeholder="Your Name" required>
+                    <input type="email" id="contact-email" placeholder="Your Email" required>
+                    <textarea id="contact-message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="action-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/helpline.js"></script>
+</body>
+</html>

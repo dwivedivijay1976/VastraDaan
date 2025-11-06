@@ -1,0 +1,85 @@
+.refer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 40px 5%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.refer-image {
+    flex-basis: 40%;
+    text-align: center;
+}
+
+.refer-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.refer-content {
+    flex-basis: 60%;
+    text-align: left;
+}
+
+.refer-content h2 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.refer-content p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+#referral-code {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    border: 2px dashed var(--primary-color);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#copy-code-btn {
+    width: auto; /* Allow button to size to its content */
+    padding: 12px 40px;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    .refer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .refer-content {
+        text-align: center;
+    }
+    .refer-image {
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
+    .refer-content h2 {
+        font-size: 2rem;
+    }
+}
+/* Style for the new animated GIF */
+.tracking-gif {
+    max-width: 150px; /* Control the size of the GIF */
+    height: auto;
+}
