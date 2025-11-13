@@ -6,7 +6,7 @@ const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;  // ✅ FIXED: Use environment variable
 const saltRounds = 10;
 const ADMIN_SECRET_CODE = process.env.ADMIN_SECRET_CODE || "ADMIN123";
 
@@ -28,19 +28,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- Routes ---
-
-// Health check endpoint
+// --- Health Check Route ---
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
-    message: 'Server is running',
+    message: 'Server is running!',
     timestamp: new Date().toISOString(),
-    port: PORT
+    port: PORT,
+    environment: process.env.NODE_ENV || 'development'
   });
 });
 
-// Default route - serve login page
+// --- Default Route to Serve Login Page ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
         if (err) {
@@ -50,7 +49,7 @@ app.get('/', (req, res) => {
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>VastraDaan - Cloth Donation</title>
+                    <title>VastraDaan - Server Running</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 40px; background: #f0f8ff; }
                         .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -61,9 +60,10 @@ app.get('/', (req, res) => {
                 <body>
                     <div class="container">
                         <h1>🚀 VastraDaan Server is Running!</h1>
-                        <p>Your Express server is deployed successfully on Render.com!</p>
-                        <p><strong>Note:</strong> The login page file is not found in the public folder.</p>
+                        <p>Express server is deployed on Render.com.</p>
+                        <p><strong>Note:</strong> The login.html file is not found in public folder.</p>
                         <p><a href="/api/health" class="btn">Test API Health</a></p>
+                        <p><strong>Port:</strong> ${PORT}</p>
                     </div>
                 </body>
                 </html>
@@ -220,7 +220,6 @@ app.get('/api/donations/:phone', (req, res) => {
 // Get mocked tracking info for a donation
 app.get('/api/tracking/:donationId', (req, res) => {
     const { donationId } = req.params;
-    // Mock tracking data
     const statuses = ['Scheduled', 'Pickup Assigned', 'In Transit', 'Processing', 'Completed'];
     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
     
@@ -228,8 +227,7 @@ app.get('/api/tracking/:donationId', (req, res) => {
         success: true, 
         donationId, 
         status: randomStatus, 
-        updatedAt: new Date().toISOString(),
-        estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+        updatedAt: new Date().toISOString()
     });
 });
 
@@ -248,9 +246,10 @@ app.get('*', (req, res) => {
             res.status(404).send(`
                 <html>
                     <body>
-                        <h1>Page Not Found</h1>
+                        <h1>VastraDaan - Page Not Found</h1>
                         <p>The requested page was not found on this server.</p>
                         <p><a href="/">Go to Home Page</a></p>
+                        <p><strong>Server Port:</strong> ${PORT}</p>
                     </body>
                 </html>
             `);
@@ -259,9 +258,10 @@ app.get('*', (req, res) => {
 });
 
 // --- Start Server ---
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server is running on port ${PORT}`);
     console.log(`📁 Current directory: ${__dirname}`);
-    console.log(`🌐 Access your app: http://localhost:${PORT}`);
+    console.log(`🌐 Access your app`);
     console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`⚙️  Process ID: ${process.pid}`);
 });
