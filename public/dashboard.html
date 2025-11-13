@@ -5,10 +5,12 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
         .header { background: #2c5530; color: white; padding: 20px; text-align: center; }
-        .nav { background: white; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav { background: white; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
         .nav a { margin: 0 15px; color: #2c5530; text-decoration: none; font-weight: bold; }
         .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
         .card { background: white; padding: 20px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; background: #2c5530; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #1e3a23; }
     </style>
 </head>
 <body>
@@ -19,16 +21,21 @@
     
     <div class="nav">
         <a href="/">Home</a>
-        <a href="/donate.html">Donate Clothes</a>
-        <a href="/track.html">Track Donations</a>
-        <a href="/helpline.html">Helpline</a>
+        <a href="/donate.html">Donate</a>
+        <a href="/track.html">Track</a>
+        <a href="/helpline.html">Support</a>
     </div>
     
     <div class="container">
         <div class="card">
-            <h2>Welcome!</h2>
-            <p>Your VastraDaan dashboard is working correctly.</p>
-            <p>Server is successfully deployed on Render.com.</p>
+            <h2>Welcome to VastraDaan! 🎉</h2>
+            <p>Your application is successfully deployed on Render.com.</p>
+            <p><strong>Next steps:</strong></p>
+            <ul>
+                <li>Add more HTML pages to the public folder</li>
+                <li>Test the login functionality</li>
+                <li>Add your CSS and JavaScript files</li>
+            </ul>
         </div>
         
         <div class="card">
@@ -36,6 +43,7 @@
             <button onclick="location.href='/donate.html'">Schedule Donation</button>
             <button onclick="location.href='/track.html'">Track Pickups</button>
             <button onclick="location.href='/helpline.html'">Contact Support</button>
+            <button onclick="location.href='/api/health'">Check API Health</button>
         </div>
     </div>
 </body>
