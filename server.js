@@ -6,17 +6,21 @@ const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const saltRounds = 10;
-const ADMIN_SECRET_CODE = "ADMIN123";
+const ADMIN_SECRET_CODE = process.env.ADMIN_SECRET_CODE || "ADMIN123";
 
-// IMPORTANT: Replace this with your actual Google Client ID
-const GOOGLE_CLIENT_ID = "853516383345-4p5d3upi7u7lakahao0htv2bpe762fgl.apps.googleusercontent.com";
+// Google Client ID
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "853516383345-4p5d3upi7u7lakahao0htv2bpe762fgl.apps.googleusercontent.com";
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // --- Middleware ---
 app.use(cors({
-  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+  origin: [
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000",
+    "https://vastradaan.onrender.com"
+  ],
   methods: ["GET", "POST"],
   credentials: true
 }));
@@ -24,9 +28,48 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- Default Route to Serve Login Page ---
+// --- Routes ---
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+    port: PORT
+  });
+});
+
+// Default route - serve login page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
+        if (err) {
+            console.error('Error serving login.html:', err);
+            // Fallback response
+            res.send(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>VastraDaan - Cloth Donation</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 40px; background: #f0f8ff; }
+                        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                        h1 { color: #2c5530; text-align: center; }
+                        .btn { display: inline-block; padding: 10px 20px; background: #2c5530; color: white; text-decoration: none; border-radius: 5px; margin: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1>🚀 VastraDaan Server is Running!</h1>
+                        <p>Your Express server is deployed successfully on Render.com!</p>
+                        <p><strong>Note:</strong> The login page file is not found in the public folder.</p>
+                        <p><a href="/api/health" class="btn">Test API Health</a></p>
+                    </div>
+                </body>
+                </html>
+            `);
+        }
+    });
 });
 
 // --- Database Setup ---
@@ -76,12 +119,16 @@ app.post('/api/auth/google', async (req, res) => {
                 res.json({ success: true, message: 'Login successful.', user: { name: user.name, phone: user.phone, address: user.address } });
             } else {
                 const sqlInsert = `INSERT INTO users (name, phone, password, address) VALUES (?, ?, ?, ?)`;
-                db.run(sqlInsert, [name, email, sub, 'Google User'], function() {
+                db.run(sqlInsert, [name, email, sub, 'Google User'], function(err) {
+                    if (err) {
+                        return res.status(500).json({ success: false, message: 'Registration failed.' });
+                    }
                     res.json({ success: true, message: 'Registration and login successful.', user: { name: name, phone: email, address: 'Google User' } });
                 });
             }
         });
     } catch (error) {
+        console.error('Google auth error:', error);
         res.status(401).json({ success: false, message: 'Invalid Google token.' });
     }
 });
@@ -102,6 +149,7 @@ app.post('/api/register', async (req, res) => {
             res.status(201).json({ success: true, message: 'User registered successfully.' });
         });
     } catch (error) {
+        console.error('Registration error:', error);
         res.status(500).json({ success: false, message: 'Server error during registration.' });
     }
 });
@@ -111,72 +159,109 @@ app.post('/api/login', (req, res) => {
     const { phone, password } = req.body;
     const sql = `SELECT * FROM users WHERE phone = ?`;
     db.get(sql, [phone], async (err, user) => {
-        if (err) { return res.status(500).json({ success: false, message: 'Database error.' }); }
-        if (!user) { return res.status(404).json({ success: false, message: 'User not found.' }); }
+        if (err) { 
+            console.error('Database error:', err);
+            return res.status(500).json({ success: false, message: 'Database error.' }); 
+        }
+        if (!user) { 
+            return res.status(404).json({ success: false, message: 'User not found.' }); 
+        }
 
-        const match = await bcrypt.compare(password, user.password);
-        if (match) {
-            res.json({ success: true, message: 'Login successful.', user: { name: user.name, phone: user.phone, address: user.address } });
-        } else {
-            res.status(401).json({ success: false, message: 'Invalid credentials.' });
+        try {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.json({ success: true, message: 'Login successful.', user: { name: user.name, phone: user.phone, address: user.address } });
+            } else {
+                res.status(401).json({ success: false, message: 'Invalid credentials.' });
+            }
+        } catch (error) {
+            console.error('Password comparison error:', error);
+            res.status(500).json({ success: false, message: 'Server error during login.' });
         }
     });
 });
 
-// In your server.js file...
+// Schedule Donation
+app.post('/api/donations', (req, res) => {
+    const { phone, items, condition, pickup_date, pickup_slot } = req.body;
+    
+    if (!phone || !items || !condition) {
+        return res.status(400).json({ success: false, message: 'Phone, items, and condition are required.' });
+    }
 
-// This is an example. Adapt it to your existing code.
-app.post('/api/donations', async (req, res) => {
-    const { phone, items, condition, quantity, pickupDate, pickupSlot, earnings } = req.body;
-
-    // --- THIS IS THE NEW LOGIC YOU MUST ADD ---
-    try {
-        // 1. Find the user in your database using their phone number
-        const user = await db.collection('users').findOne({ phone: phone });
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+    const sql = `INSERT INTO donations (phone, items, condition, pickup_date, pickup_slot) VALUES (?, ?, ?, ?, ?)`;
+    db.run(sql, [phone, items, condition, pickup_date, pickup_slot], function(err) {
+        if (err) {
+            console.error('Donation error:', err);
+            return res.status(500).json({ success: false, message: 'Failed to schedule donation.' });
         }
-
-        // 2. Calculate the new total earnings
-        const currentEarnings = user.earnings || 0;
-        const newTotalEarnings = currentEarnings + earnings;
-
-        // 3. Update the user's record in the database with the new total
-        await db.collection('users').updateOne(
-            { phone: phone },
-            { $set: { earnings: newTotalEarnings } }
-        );
-
-        // 4. Save the new donation to the donations collection (your existing logic)
-        const newDonation = {
-            // ... your donation fields ...
-            status: 'Pending'
-        };
-        const donationResult = await db.collection('donations').insertOne(newDonation);
-
-        // 5. Send a success response WITH the new total earnings
         res.status(201).json({ 
             success: true, 
-            message: 'Donation scheduled and earnings updated!',
-            donationId: donationResult.insertedId,
-            newTotalEarnings: newTotalEarnings // <-- This is crucial
+            message: 'Donation scheduled successfully!',
+            donationId: this.lastID
         });
+    });
+});
 
-    } catch (error) {
-        console.error('Error processing donation:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
+// Get user donations
+app.get('/api/donations/:phone', (req, res) => {
+    const { phone } = req.params;
+    const sql = `SELECT * FROM donations WHERE phone = ? ORDER BY timestamp DESC`;
+    
+    db.all(sql, [phone], (err, donations) => {
+        if (err) {
+            console.error('Error fetching donations:', err);
+            return res.status(500).json({ success: false, message: 'Failed to fetch donations.' });
+        }
+        res.json({ success: true, donations });
+    });
 });
 
 // Get mocked tracking info for a donation
 app.get('/api/tracking/:donationId', (req, res) => {
     const { donationId } = req.params;
-    // This is just a placeholder and would need real logic in a full application
-    res.json({ success: true, donationId, status: 'Pickup Scheduled', updatedAt: new Date() });
+    // Mock tracking data
+    const statuses = ['Scheduled', 'Pickup Assigned', 'In Transit', 'Processing', 'Completed'];
+    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    
+    res.json({ 
+        success: true, 
+        donationId, 
+        status: randomStatus, 
+        updatedAt: new Date().toISOString(),
+        estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+    });
+});
+
+// 404 handler for undefined API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({ 
+        success: false, 
+        message: 'API endpoint not found' 
+    });
+});
+
+// Catch-all handler for client-side routing
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
+        if (err) {
+            res.status(404).send(`
+                <html>
+                    <body>
+                        <h1>Page Not Found</h1>
+                        <p>The requested page was not found on this server.</p>
+                        <p><a href="/">Go to Home Page</a></p>
+                    </body>
+                </html>
+            `);
+        }
+    });
 });
 
 // --- Start Server ---
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`📁 Current directory: ${__dirname}`);
+    console.log(`🌐 Access your app: http://localhost:${PORT}`);
+    console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
