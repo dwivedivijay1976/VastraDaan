@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login - Cloth Donation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VastraDaan - Cloth Donation</title>
     <style>
-        /* Basic reset and styles to ensure it works even if CSS files are missing */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
@@ -17,31 +16,31 @@
             padding: 20px;
         }
         .container { 
-            width: 100%; 
-            max-width: 400px; 
-        }
-        .neu-card { 
             background: white; 
             padding: 40px; 
             border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 400px; 
             text-align: center;
         }
-        h2 { 
+        h1 { 
             color: #333; 
-            margin-bottom: 20px; 
-            font-size: 24px;
+            margin-bottom: 10px; 
         }
-        p { 
+        .subtitle { 
             color: #666; 
-            margin-bottom: 20px; 
+            margin-bottom: 30px; 
         }
         .form-group { 
             margin-bottom: 20px; 
             text-align: left;
         }
-        .input-group { 
-            position: relative; 
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            color: #555; 
+            font-weight: bold;
         }
         input { 
             width: 100%; 
@@ -49,7 +48,6 @@
             border: 2px solid #ddd; 
             border-radius: 8px; 
             font-size: 16px; 
-            background: white;
         }
         input:focus { 
             border-color: #667eea; 
@@ -58,296 +56,132 @@
         button { 
             width: 100%; 
             padding: 12px; 
-            background: #667eea; 
+            background: #2c5530; 
             color: white; 
             border: none; 
             border-radius: 8px; 
             font-size: 16px; 
             cursor: pointer; 
-            margin: 5px 0;
+            margin: 10px 0;
         }
         button:hover { 
-            background: #764ba2; 
+            background: #1e3a23; 
         }
-        .bottom-link { 
+        .links { 
             margin-top: 20px; 
-            color: #666;
         }
         a { 
             color: #667eea; 
-            text-decoration: none;
+            text-decoration: none; 
+            margin: 0 10px;
         }
         a:hover { 
             text-decoration: underline;
         }
-        .view { 
-            display: none; 
-        }
-        .active-view { 
-            display: block; 
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            padding: 10px; 
+            border-radius: 5px; 
+            margin-bottom: 20px; 
         }
         .phone-group { 
             position: relative; 
         }
         .country-code { 
             position: absolute; 
-            left: 10px; 
+            left: 12px; 
             top: 50%; 
             transform: translateY(-50%); 
             color: #666; 
             font-weight: bold;
         }
-        .phone-group input { 
+        .phone-input { 
             padding-left: 45px; 
         }
-        .warning-message { 
-            color: #e74c3c; 
-            font-size: 12px; 
-            display: block; 
-            margin-top: 5px;
-        }
-        .divider { 
-            margin: 20px 0; 
-            position: relative; 
-            text-align: center; 
-            color: #666;
-        }
-        .divider::before { 
-            content: ''; 
-            position: absolute; 
-            top: 50%; 
-            left: 0; 
-            right: 0; 
-            height: 1px; 
-            background: #ddd;
-        }
-        .divider span { 
-            background: white; 
-            padding: 0 10px; 
-            position: relative;
-        }
     </style>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <!-- Fallback background if video doesn't load -->
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); z-index: -1;"></div>
-    
-    <!-- Video background with fallback -->
-    <video autoplay muted loop playsinline id="bg-video" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-        <source src="videos/bg-video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
     <div class="container">
-        <!-- Home View -->
-        <div id="home-view" class="view active-view">
-            <div class="neu-card">
-                <div style="font-size: 48px; margin-bottom: 20px;">🧵</div>
-                <h2>VastraDaan</h2>
-                <p>Your small contribution can make a big difference.</p>
-                <div style="margin-top: 30px;">
-                    <button class="nav-btn" data-target="login-view" style="background: #2c5530;">Login</button>
-                    <button class="nav-btn" data-target="register-view" style="background: #667eea;">Register</button>
-                </div>
-            </div>
+        <h1>🧵 VastraDaan</h1>
+        <p class="subtitle">Cloth Donation Platform</p>
+        
+        <div class="success">
+            ✅ Server is running on Render.com!
         </div>
-
-        <!-- Register View -->
-        <div id="register-view" class="view">
-            <div class="neu-card">
-                <h2>Create Account</h2>
-                <form id="register-form" novalidate>
-                    <div class="form-group">
-                        <input type="text" id="register-name" required placeholder="Full Name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="phone-group">
-                            <span class="country-code">+91</span>
-                            <input type="tel" id="register-phone" required placeholder="Phone Number" maxlength="10">
-                        </div>
-                        <span class="warning-message" id="register-phone-warning"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="password" id="register-password" required placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="register-address" required placeholder="Address">
-                    </div>
-                    <button type="submit" style="background: #2c5530;">Register</button>
-                </form>
-                <div class="divider"><span>or</span></div>
-                <div id="g_id_onload" data-client_id="853516383345-4p5d3upi7u7lakahao0htv2bpe762fgl.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
-                <div style="margin: 20px 0;">
-                    <div class="g_id_signin" data-type="standard" data-theme="outline" data-size="large" data-logo_alignment="center"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <div class="phone-group">
+                    <span class="country-code">+91</span>
+                    <input type="tel" id="phone" class="phone-input" placeholder="Enter 10-digit number" maxlength="10" required>
                 </div>
-                <p class="bottom-link">Already have an account? <a href="#" class="nav-link" data-target="login-view">Sign In</a></p>
             </div>
-        </div>
-
-        <!-- Login View -->
-        <div id="login-view" class="view">
-            <div class="neu-card">
-                <div style="font-size: 48px; margin-bottom: 20px;">🔐</div>
-                <h2>Welcome Back</h2>
-                <form id="login-form" novalidate>
-                    <div class="form-group">
-                        <div class="phone-group">
-                            <span class="country-code">+91</span>
-                            <input type="tel" id="login-phone" required placeholder="Phone Number" maxlength="10">
-                        </div>
-                        <span class="warning-message" id="login-phone-warning"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="password" id="login-password" required placeholder="Password">
-                    </div>
-                    <button type="submit" style="background: #2c5530;">Login</button>
-                </form>
-                <div class="divider"><span>or</span></div>
-                <div style="margin: 20px 0;">
-                    <div class="g_id_signin" data-type="standard" data-theme="outline" data-size="large" data-logo_alignment="center"></div>
-                </div>
-                <p class="bottom-link">No account? <a href="#" class="nav-link" data-target="register-view">Sign Up</a></p>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
             </div>
+            <button type="submit">Login</button>
+        </form>
+        
+        <div class="links">
+            <p><a href="#" id="registerLink">Create New Account</a></p>
+            <p><a href="/api/health" target="_blank">API Health Check</a></p>
+            <p><a href="/dashboard.html">Dashboard</a></p>
         </div>
     </div>
 
     <script>
-        // Basic JavaScript functionality - will work even if external JS files are missing
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navigation between views
-            document.querySelectorAll('.nav-btn, .nav-link').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetView = this.getAttribute('data-target');
-                    
-                    // Hide all views
-                    document.querySelectorAll('.view').forEach(view => {
-                        view.classList.remove('active-view');
-                    });
-                    
-                    // Show target view
-                    document.getElementById(targetView).classList.add('active-view');
-                });
-            });
-
-            // Phone number validation
-            document.querySelectorAll('input[type="tel"]').forEach(input => {
-                input.addEventListener('input', function() {
-                    const warningId = this.id + '-warning';
-                    const warningElement = document.getElementById(warningId);
-                    
-                    if (this.value.length === 10 && /^\d+$/.test(this.value)) {
-                        if (warningElement) warningElement.textContent = '';
-                    } else if (this.value.length > 0) {
-                        if (warningElement) warningElement.textContent = 'Please enter a valid 10-digit phone number';
-                    } else {
-                        if (warningElement) warningElement.textContent = '';
-                    }
-                });
-            });
-
-            // Form submissions
-            document.getElementById('login-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const phone = document.getElementById('login-phone').value;
-                const password = document.getElementById('login-password').value;
-
-                if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-                    alert('Please enter a valid 10-digit phone number');
-                    return;
-                }
-
-                try {
-                    const response = await fetch('/api/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ phone, password })
-                    });
-
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert('Login successful! Welcome ' + result.user.name);
-                        window.location.href = '/dashboard.html';
-                    } else {
-                        alert('Login failed: ' + result.message);
-                    }
-                } catch (error) {
-                    alert('Login error: ' + error.message);
-                }
-            });
-
-            document.getElementById('register-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('register-name').value;
-                const phone = document.getElementById('register-phone').value;
-                const password = document.getElementById('register-password').value;
-                const address = document.getElementById('register-address').value;
-
-                if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-                    alert('Please enter a valid 10-digit phone number');
-                    return;
-                }
-
-                try {
-                    const response = await fetch('/api/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, phone, password, address })
-                    });
-
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert('Registration successful! Please login.');
-                        document.querySelector('.nav-link[data-target="login-view"]').click();
-                    } else {
-                        alert('Registration failed: ' + result.message);
-                    }
-                } catch (error) {
-                    alert('Registration error: ' + error.message);
-                }
-            });
-
-            // Google Sign-In callback
-            window.handleCredentialResponse = function(response) {
-                console.log('Google Sign-In response:', response);
-                
-                fetch('/api/auth/google', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: response.credential })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Google login successful! Welcome ' + data.user.name);
-                        window.location.href = '/dashboard.html';
-                    } else {
-                        alert('Google login failed: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Google login error: ' + error.message);
-                });
-            };
-
-            // Video fallback
-            const video = document.getElementById('bg-video');
-            if (video) {
-                video.addEventListener('error', function() {
-                    console.log('Video failed to load, using gradient background');
-                });
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            // Validate phone number
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
             }
-
-            console.log('VastraDaan login page loaded successfully');
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({ phone, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Login successful! Welcome ' + result.user.name);
+                    // Redirect to dashboard
+                    window.location.href = '/dashboard.html';
+                } else {
+                    alert('Login failed: ' + result.message);
+                }
+            } catch (error) {
+                alert('Login error: ' + error.message);
+            }
         });
+
+        document.getElementById('registerLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Registration feature will be available soon!');
+        });
+
+        // Test API connection on page load
+        fetch('/api/health')
+            .then(response => response.json())
+            .then(data => {
+                console.log('API Health:', data);
+            })
+            .catch(error => {
+                console.error('API Health check failed:', error);
+            });
     </script>
 </body>
 </html>
