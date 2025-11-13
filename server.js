@@ -1,267 +1,178 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require('bcrypt');
-const cors = require('cors');
 const path = require('path');
-const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
-const PORT = process.env.PORT || 3000;  // ✅ FIXED: Use environment variable
-const saltRounds = 10;
-const ADMIN_SECRET_CODE = process.env.ADMIN_SECRET_CODE || "ADMIN123";
+const PORT = process.env.PORT || 3000;
 
-// Google Client ID
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "853516383345-4p5d3upi7u7lakahao0htv2bpe762fgl.apps.googleusercontent.com";
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
-
-// --- Middleware ---
-app.use(cors({
-  origin: [
-    "http://localhost:3000", 
-    "http://127.0.0.1:3000",
-    "https://vastradaan.onrender.com"
-  ],
-  methods: ["GET", "POST"],
-  credentials: true
-}));
-
+// Basic middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- Health Check Route ---
+// Enhanced health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
-    message: 'Server is running!',
+    message: 'VastraDaan Server is Running!',
     timestamp: new Date().toISOString(),
     port: PORT,
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    version: '1.0.0'
   });
 });
 
-// --- Default Route to Serve Login Page ---
+// Test all basic routes
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'API is working correctly',
+    data: {
+      server: 'Express.js',
+      status: 'Active',
+      time: new Date().toISOString()
+    }
+  });
+});
+
+// Default route with better fallback
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
-        if (err) {
-            console.error('Error serving login.html:', err);
-            // Fallback response
-            res.send(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>VastraDaan - Server Running</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 40px; background: #f0f8ff; }
-                        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                        h1 { color: #2c5530; text-align: center; }
-                        .btn { display: inline-block; padding: 10px 20px; background: #2c5530; color: white; text-decoration: none; border-radius: 5px; margin: 5px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <h1>🚀 VastraDaan Server is Running!</h1>
-                        <p>Express server is deployed on Render.com.</p>
-                        <p><strong>Note:</strong> The login.html file is not found in public folder.</p>
-                        <p><a href="/api/health" class="btn">Test API Health</a></p>
-                        <p><strong>Port:</strong> ${PORT}</p>
-                    </div>
-                </body>
-                </html>
-            `);
-        }
-    });
-});
-
-// --- Database Setup ---
-const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-    if (err) {
-        console.error("Error opening database:", err.message);
-    } else {
-        console.log('Connected to the SQLite database.');
-        db.serialize(() => {
-            db.run(`CREATE TABLE IF NOT EXISTS users (
-                name TEXT NOT NULL,
-                phone TEXT PRIMARY KEY,
-                password TEXT NOT NULL,
-                address TEXT NOT NULL
-            )`);
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>VastraDaan - Cloth Donation</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { 
+                font-family: Arial, sans-serif; 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                min-height: 100vh; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                padding: 20px;
+            }
+            .container { 
+                background: white; 
+                padding: 40px; 
+                border-radius: 15px; 
+                box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+                width: 100%; 
+                max-width: 500px; 
+                text-align: center;
+            }
+            h1 { color: #2c5530; margin-bottom: 10px; }
+            p { color: #666; margin-bottom: 20px; }
+            .btn { 
+                display: inline-block; 
+                padding: 12px 24px; 
+                background: #2c5530; 
+                color: white; 
+                text-decoration: none; 
+                border-radius: 8px; 
+                margin: 10px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            .btn:hover { background: #1e3a23; }
+            .status { 
+                background: #d4edda; 
+                color: #155724; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin-bottom: 20px; 
+                border-left: 4px solid #28a745;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="status">
+                <strong>✅ SERVER STATUS: RUNNING</strong>
+            </div>
+            <h1>🧵 VastraDaan</h1>
+            <p>Cloth Donation Platform</p>
+            <p>Your Express server is successfully deployed on Render.com!</p>
             
-            db.run(`CREATE TABLE IF NOT EXISTS donations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                phone TEXT NOT NULL,
-                items TEXT NOT NULL,
-                condition TEXT NOT NULL,
-                pickup_date TEXT, 
-                pickup_slot TEXT,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (phone) REFERENCES users(phone)
-            )`);
-        });
-    }
-});
+            <div style="margin: 30px 0;">
+                <button class="btn" onclick="testAPI()">Test API Health</button>
+                <a href="/api/health" class="btn" target="_blank">API Health</a>
+                <a href="/api/test" class="btn" target="_blank">Test Endpoint</a>
+            </div>
+            
+            <div id="apiResult" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none;"></div>
+        </div>
 
-// --- API Endpoints ---
-
-// Google Authentication
-app.post('/api/auth/google', async (req, res) => {
-    const { token } = req.body;
-    try {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: GOOGLE_CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-        const { name, email, sub } = payload;
-
-        const sqlFind = `SELECT * FROM users WHERE phone = ?`;
-        db.get(sqlFind, [email], (err, user) => {
-            if (user) {
-                res.json({ success: true, message: 'Login successful.', user: { name: user.name, phone: user.phone, address: user.address } });
-            } else {
-                const sqlInsert = `INSERT INTO users (name, phone, password, address) VALUES (?, ?, ?, ?)`;
-                db.run(sqlInsert, [name, email, sub, 'Google User'], function(err) {
-                    if (err) {
-                        return res.status(500).json({ success: false, message: 'Registration failed.' });
-                    }
-                    res.json({ success: true, message: 'Registration and login successful.', user: { name: name, phone: email, address: 'Google User' } });
-                });
+        <script>
+            async function testAPI() {
+                try {
+                    const response = await fetch('/api/health');
+                    const data = await response.json();
+                    document.getElementById('apiResult').innerHTML = `
+                        <strong>✅ API Response:</strong><br>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    document.getElementById('apiResult').style.display = 'block';
+                } catch (error) {
+                    document.getElementById('apiResult').innerHTML = `
+                        <strong>❌ API Error:</strong><br>
+                        ${error.message}
+                    `;
+                    document.getElementById('apiResult').style.display = 'block';
+                }
             }
-        });
-    } catch (error) {
-        console.error('Google auth error:', error);
-        res.status(401).json({ success: false, message: 'Invalid Google token.' });
-    }
+            
+            // Test API on page load
+            testAPI();
+        </script>
+    </body>
+    </html>
+  `);
 });
 
-// User Registration
-app.post('/api/register', async (req, res) => {
-    const { name, phone, password, address } = req.body;
-    if (!name || !phone || !password || !address) {
-        return res.status(400).json({ success: false, message: 'All fields are required.' });
-    }
-    try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        const sql = `INSERT INTO users (name, phone, password, address) VALUES (?, ?, ?, ?)`;
-        db.run(sql, [name, phone, hashedPassword, address], function(err) {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Phone number already registered.' });
-            }
-            res.status(201).json({ success: true, message: 'User registered successfully.' });
-        });
-    } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ success: false, message: 'Server error during registration.' });
-    }
-});
-
-// User Login
-app.post('/api/login', (req, res) => {
-    const { phone, password } = req.body;
-    const sql = `SELECT * FROM users WHERE phone = ?`;
-    db.get(sql, [phone], async (err, user) => {
-        if (err) { 
-            console.error('Database error:', err);
-            return res.status(500).json({ success: false, message: 'Database error.' }); 
-        }
-        if (!user) { 
-            return res.status(404).json({ success: false, message: 'User not found.' }); 
-        }
-
-        try {
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
-                res.json({ success: true, message: 'Login successful.', user: { name: user.name, phone: user.phone, address: user.address } });
-            } else {
-                res.status(401).json({ success: false, message: 'Invalid credentials.' });
-            }
-        } catch (error) {
-            console.error('Password comparison error:', error);
-            res.status(500).json({ success: false, message: 'Server error during login.' });
-        }
-    });
-});
-
-// Schedule Donation
-app.post('/api/donations', (req, res) => {
-    const { phone, items, condition, pickup_date, pickup_slot } = req.body;
-    
-    if (!phone || !items || !condition) {
-        return res.status(400).json({ success: false, message: 'Phone, items, and condition are required.' });
-    }
-
-    const sql = `INSERT INTO donations (phone, items, condition, pickup_date, pickup_slot) VALUES (?, ?, ?, ?, ?)`;
-    db.run(sql, [phone, items, condition, pickup_date, pickup_slot], function(err) {
-        if (err) {
-            console.error('Donation error:', err);
-            return res.status(500).json({ success: false, message: 'Failed to schedule donation.' });
-        }
-        res.status(201).json({ 
-            success: true, 
-            message: 'Donation scheduled successfully!',
-            donationId: this.lastID
-        });
-    });
-});
-
-// Get user donations
-app.get('/api/donations/:phone', (req, res) => {
-    const { phone } = req.params;
-    const sql = `SELECT * FROM donations WHERE phone = ? ORDER BY timestamp DESC`;
-    
-    db.all(sql, [phone], (err, donations) => {
-        if (err) {
-            console.error('Error fetching donations:', err);
-            return res.status(500).json({ success: false, message: 'Failed to fetch donations.' });
-        }
-        res.json({ success: true, donations });
-    });
-});
-
-// Get mocked tracking info for a donation
-app.get('/api/tracking/:donationId', (req, res) => {
-    const { donationId } = req.params;
-    const statuses = ['Scheduled', 'Pickup Assigned', 'In Transit', 'Processing', 'Completed'];
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-    
-    res.json({ 
-        success: true, 
-        donationId, 
-        status: randomStatus, 
-        updatedAt: new Date().toISOString()
-    });
-});
-
-// 404 handler for undefined API routes
-app.use('/api/*', (req, res) => {
-    res.status(404).json({ 
-        success: false, 
-        message: 'API endpoint not found' 
-    });
-});
-
-// Catch-all handler for client-side routing
+// Catch-all route
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
-        if (err) {
-            res.status(404).send(`
-                <html>
-                    <body>
-                        <h1>VastraDaan - Page Not Found</h1>
-                        <p>The requested page was not found on this server.</p>
-                        <p><a href="/">Go to Home Page</a></p>
-                        <p><strong>Server Port:</strong> ${PORT}</p>
-                    </body>
-                </html>
-            `);
-        }
-    });
+  res.status(404).send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Page Not Found - VastraDaan</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f8f9fa; }
+            .container { max-width: 500px; margin: 0 auto; text-align: center; }
+            h1 { color: #dc3545; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>404 - Page Not Found</h1>
+            <p>The requested URL was not found on this server.</p>
+            <p><a href="/">← Go to Home Page</a></p>
+        </div>
+    </body>
+    </html>
+  `);
 });
 
-// --- Start Server ---
+// Start server with error handling
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📁 Current directory: ${__dirname}`);
-    console.log(`🌐 Access your app`);
-    console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`⚙️  Process ID: ${process.pid}`);
+  console.log('🚀 =================================');
+  console.log('✅ VastraDaan Server Started Successfully!');
+  console.log(`✅ Port: ${PORT}`);
+  console.log(`✅ Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`✅ Process ID: ${process.pid}`);
+  console.log(`✅ Node.js Version: ${process.version}`);
+  console.log('🚀 =================================');
+}).on('error', (err) => {
+  console.error('❌ Server failed to start:', err);
+  process.exit(1);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
 });
